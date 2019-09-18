@@ -1133,7 +1133,7 @@ SomaVertex::scaleSinglePointRadius(R scale)
 {
     // soma may consist of more than one section (due to swc soma representation)
     for (auto &section : this->sections)
-        section.radius() *= scale;
+        section.radius() -= scale;
 }
 
 /* iterators */
@@ -1241,7 +1241,7 @@ void
 CellNetwork<Tn, Tv, Te, Tso, Tnv, Tax, Tde, Tns, Tas, Tds, Tnr, Tar, Tdr, R>::
 NeuriteVertex::scaleSinglePointRadius(R scale)
 {
-    this->sections.begin()->radius() *= scale;
+    this->sections.begin()->radius() -= scale;
 }
 
 template <
