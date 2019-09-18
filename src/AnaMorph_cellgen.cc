@@ -635,8 +635,8 @@ AnaMorph_cellgen::processCommandLineArguments()
             }
 
             // check value
-            if (scale_radius < 0.1) {
-                printf("ERROR: Radius scale must not be less than 0.1 as this would result in too big a geometry.\n");
+            if (scale_radius < 0.0) {
+                printf("ERROR: Skin thickness must not be less than 0.0 as this would result in increase the radius.\n");
                 return false;
             }
         }
