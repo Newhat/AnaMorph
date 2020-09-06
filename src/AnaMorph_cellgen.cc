@@ -635,8 +635,8 @@ AnaMorph_cellgen::processCommandLineArguments()
             }
 
             // check value
-            if (scale_radius < 0.0) {
-                printf("ERROR: Skin thickness must not be less than 0.0 as this would result in increase the radius.\n");
+            if (scale_radius <= 0.0) {
+                printf("ERROR: Radius scale must not be less than 0 as this would result in too big a geometry.\n");
                 return false;
             }
         }
@@ -1133,6 +1133,12 @@ AnaMorph_cellgen::run()
             /* output morphology viewer file */
             printf("writing AnaMorph visualization file \"%s.amv\".. ", this->network_name.c_str());fflush(stdout);
             C.writeMorphViewFile( std::string(network_name) + ".amv");
+            printf("done.\n");
+#endif
+#if 0	// change 0 to 1, to get output
+            /* output coarse dots' file after preconditionning*/
+            printf("writing _dots.obj file \"%s_dots.obj\".. ", this->network_name.c_str());fflush(stdout);
+            C.writeSwcFile( std::string(network_name) + "_dots.obj");
             printf("done.\n");
 #endif
 
