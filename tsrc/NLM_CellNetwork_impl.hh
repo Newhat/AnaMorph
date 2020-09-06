@@ -604,6 +604,9 @@ namespace NLM {
             /* copy first canal segment and reduce the start vertex radius with radius_reduction_factor */
             BLRCanalSurface<3u, R> const &C0    = *(this->canal_segments_magnified[0]);
             std::pair<R, R>     C0_radii    = C0.getRadii();
+            //test --------------
+            //std::cout<<C0_radii.first<<std::endl;
+            //test end ----------
             BLRCanalSurface<3u, R>  C0_copy(
                     C0.getSpineCurve(),
                     C0_radii.first * radius_reduction_factor,
@@ -3325,7 +3328,7 @@ NLM_CellNetwork<R>::renderCellNetwork(std::string filename)
     uint32_t np_idx = 1;
     for (auto npt_vit = npt_vertices_bfs_ordered.begin(); npt_vit != npt_vertices_bfs_ordered.end(); ++npt_vit) {
         debugl(2, "processing neurite path %d\n", (*npt_vit)->id());
-        printf("\t meshing neurite path %5u of %5zu.\n", np_idx, npt_vertices_bfs_ordered.size() );
+        printf("\t # meshing neurite path %5u of %5zu.\n", np_idx, npt_vertices_bfs_ordered.size() );
 
         /* get reference to neurite path */
         NLM::NeuritePath<R> const &P    = (*npt_vit)->vertex_data;
@@ -4148,4 +4151,56 @@ NLM_CellNetwork<R>::writeMorphViewFile(std::string filename) const
 
     debugTabDec();
     debugl(1, "NLM_CellNetwork::writeMorphViewFile(): done writing file \"%s\".\n", filename.c_str() );
+}
+
+// newly added parts to get the *.swc file after preconditoning 8/11/2020
+template <typename R>
+void
+NLM_CellNetwork<R>::writeSwcFile(std::string filename) const
+{
+    debugl(1, "NLM_CellNetwork::writeMorphViewFile(): writing to filename \"%s\".\n", filename.c_str() );
+    debugTabInc();
+
+    std::ofstream f;
+    f.open (filename.c_str());
+    //FILE *f = fopen(filename.c_str(), "w");
+    if (!f) {
+        throw("NLM_CellNetwork()::writeBinaryDump(): can't open output filename.");
+    }
+
+    std::list<NLM::NeuritePath<R> const *>  neurite_paths;
+    this->getAllNeuritePaths(neurite_paths);
+
+    uint8_t flag;
+
+    /* write total number of neurite vertices, coordinates and radii */
+    uint32_t num_nv = this->neurite_vertices.size();
+    f<<"#" << num_nv<<'\n';
+
+    debugl(1, "writing position / radius / branching flag for %d neurite vertices.\n", num_nv);
+
+    /* iterate over all neurite vertices */
+    Vec3<R> nv_pos;
+    R       nv_r, tmp;
+    uint8_t nv_branch;
+    std::cout<<""<<std::endl;
+    for (auto &nv : this->neurite_vertices) {
+        nv_pos      = nv.getPosition();
+        nv_r        = nv.getRadius();
+        nv_branch   = nv.isNeuriteBranchingVertex();
+
+        // test
+        //std::cout<<"v "<<nv_pos[0]<<" "<< nv_pos[1]<<" "<< nv_pos[2]<<std::endl;
+        f<<"v "<<nv_pos[0]<<" "<< nv_pos[1]<<" "<< nv_pos[2]<<'\n';
+        f<<"# radii " <<  nv_r<<'\n';
+        if(nv_branch==true)
+        {f<<"# branch " << 1<<'\n';}
+        else
+        {f<<"# branch " << 0<<'\n';}
+    }
+    f.close();
+
+    debugTabDec();
+    debugl(1, "NLM_CellNetwork::writeSwcViewFile(): done writing file \"%s\".\n", filename.c_str() );
+
 }

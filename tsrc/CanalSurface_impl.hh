@@ -350,6 +350,9 @@ CanalSurface<C2F, RadF, R>::generateMesh(
     if (start_circle_its == NULL) {
         /* get starting point and radius */
         p   = this->spineCurveEval(this->t0);
+        //test
+        std::cout<<"# head "<<std::endl;
+        std::cout<<"v "<<p[0]<<" "<<p[1]<<" "<<p[2]<<" "<<std::endl;
         r   = this->radiusEval(this->t0);
 
         /* get curve base for t0 */
@@ -429,6 +432,8 @@ CanalSurface<C2F, RadF, R>::generateMesh(
 
         /* calculate new current point and radius */
         p           = this->spineCurveEval(t);
+        //test
+        std::cout<<"v "<<p[0]<<" "<<p[1]<<" "<<p[2]<<" "<<std::endl;
         r           = this->radiusEval(t);
 
         this->spineCurveGetRenderFrame(t, rvec, px, py, pz);
@@ -454,7 +459,11 @@ CanalSurface<C2F, RadF, R>::generateMesh(
     last_circle = current_circle;
     last_p      = p;
     p           = this->spineCurveEval(this->t1);
+    //test
+    std::cout<<"# tail "<<std::endl;
+    std::cout<<"v "<<p[0]<<" "<<p[1]<<" "<<p[2]<<" "<<std::endl;
     r           = this->radiusEval(this->t1);
+
 
     this->spineCurveGetRenderFrame(this->t1, rvec, px, py, pz);
     //this->spineCurveGetFrenetFrame(this->t1, px, py, pz);
