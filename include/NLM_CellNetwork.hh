@@ -1076,6 +1076,8 @@ class NLM_CellNetwork
 
         /* output visualization file for morphview */
         void                                        writeMorphViewFile(std::string filename) const;
+        /* output *.swc file for after preconditoning */
+        void                                        writeSwcFile(std::string filename) const;
 };
 
 #include "../tsrc/NLM_CellNetwork_impl.hh"
