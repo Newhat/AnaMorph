@@ -400,7 +400,7 @@ CellNetwork<Tn, Tv, Te, Tso, Tnv, Tax, Tde, Tns, Tas, Tds, Tnr, Tar, Tdr, R>::
 NeuronVertex::scale(R const &x)
 {
     for (auto &c : this->sections) {
-        c = CellSection(c.getCompartmentId(), c.getPosition(), c.getRadius() * x);
+        c = CellSection(c.getCompartmentId(), c.getPosition(), c.getRadius()*x);
     }
 }
 
