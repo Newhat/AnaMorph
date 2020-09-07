@@ -55,3 +55,5 @@ A comprehensive list of adjustable parameters is contained in the file $AnaMorph
 	am_cellgen
 
 without any arguments.
+
+------------- Add the way to generate ER inside ---------
